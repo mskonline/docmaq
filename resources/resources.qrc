@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/images" >
+        <file>images/quit.png</file>
+        <file>images/logo.png</file>
+        <file>images/reset.png</file>
+        <file>images/print.png</file>
+        <file>images/fill.png</file>
+        <file>images/manual.png</file>
+        <file>images/query.png</file>
+        <file>images/save.png</file>
+        <file>images/abort.png</file>
+        <file>images/font.png</file>
+        <file>images/snist1.jpg</file>
+        <file>Images/stppic.png</file>
+        <file>Images/abtpic.png</file>
+    </qresource>
+</RCC>

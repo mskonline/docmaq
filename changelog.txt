@@ -1,0 +1,12 @@
+# All Changes upto 23rd August 2009 are not Documented.
+
+[23-August-2009]
+- Started Changelog.txt
+- Made improvements in mainwindow.cpp.
+- Successfully created the File Directory Structure & compilation.
+
+[4-December-2009]
+-changed name of the program to just print it.
+-updated loadregmain module.
+-edited write functions in main,bulk,selective.
+-setup creation started.
