@@ -336,4 +336,22 @@ void logs::setLastSnoRollNo(int serialno ,QString rollno,int type)
     
     settings-> endGroup();
 }
+//21.01.2010 11:56:55
+void logs::setCurrentYear(int from , int to)
+{
+	settings->beginGroup("generalsettings/currentyear");
+	settings->setValue("from",from);
+	settings->setValue("to",to);
+	settings-> endGroup();
+}
 
+QStringList logs::getCurrentYear()
+{
+	QStringList year;
+	settings->beginGroup("generalsettings/currentyear");
+	year<<settings->value("from").toString();
+	year<<settings->value("to").toString();
+	settings-> endGroup();
+	return year;
+
+}

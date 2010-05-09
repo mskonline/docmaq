@@ -77,8 +77,8 @@ class mainwindow : public QMainWindow
     ChangePassword *cp;
 
 
-    void mainwindow::closeEvent(QCloseEvent *);
-    void mainwindow::keyPressEvent(QKeyEvent *);
+    void closeEvent(QCloseEvent *);
+    void keyPressEvent(QKeyEvent *);
     void setprinter();
     void sdttabfill();
 

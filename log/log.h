@@ -32,8 +32,9 @@ public :
     void setCount(int count2day,int totalcount,int type=0);
     QList <int> getCount(int type=0);
     QStringList getLastSnoRollNo(int type=0);
-    void setLastSnoRollNo(int serialno,QString rollno,int type=0);
-
+    void setLastSnoRollNo(int serialno,QString rollno,int type=0);    
+    void setCurrentYear(int from,int to);
+    QStringList getCurrentYear();
 
 public slots:
 
