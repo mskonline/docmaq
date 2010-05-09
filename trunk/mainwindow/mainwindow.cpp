@@ -52,8 +52,6 @@ mainwindow::mainwindow()
     setprinter();
 
     //Connections
-
-
     connect(ui.bselback,SIGNAL(pressed()),selprint,SLOT(back()));
     connect(ui.bqreset,SIGNAL(pressed()),this,SLOT(breset()));
     connect(ui.bqprint,SIGNAL(pressed()),this,SLOT(qprint()));
@@ -416,8 +414,8 @@ bool mainwindow::queryit(sdetails *sdt)
     q = qp2 + id;
     query.exec(q);
     query.next();
-    sdt->stname = query.value(0).toString();
-    sdt->ftname = query.value(1).toString();
+    sdt->stname = query.value(0).toString().toUpper();
+    sdt->ftname = query.value(1).toString().toUpper();
     sdt->gender = query.value(2).toString();
 
     if ( sdt->stname.isEmpty() && sdt->ftname.isEmpty() && sdt->gender.isEmpty() )
@@ -449,6 +447,8 @@ bool mainwindow::queryit(sdetails *sdt)
     }
 
     var_yr = sdt->year.toInt();
+
+    // Year
     switch ( var_yr )
     {
     case 1: sdt->year = ", I year";
@@ -462,7 +462,8 @@ bool mainwindow::queryit(sdetails *sdt)
 
     var_sem = sdt->sem.toInt();
 
-   if (sdt->course == "B.Tech" and var_yr == 1)
+   // B'tech 1st year don't have semester system
+    if (sdt->course == "B.Tech" and var_yr == 1)
    {
        sdt->sem = "";
        var_sem = 0;
@@ -477,7 +478,8 @@ bool mainwindow::queryit(sdetails *sdt)
         }
    }
 
-    switch ( bid )
+   // Branch
+   switch ( bid )
     {
     case 1 : sdt->branch ="EEE";
         break;
@@ -615,26 +617,26 @@ void mainwindow::reset()
 void mainwindow::qprint()
 {
 
-    if(ui.ptcombo->currentIndex() != 2)
+    if( mwsdt->stroll.isEmpty() or mwsdt->stname.isEmpty() or mwsdt->ftname.isEmpty() or ui.cbgen->currentIndex() == -1)
     {
-        if( mwsdt->stroll.isEmpty() or mwsdt->stname.isEmpty() or mwsdt->ftname.isEmpty() or ui.cbgen->currentIndex() == -1)
-        {
             QMessageBox::warning(this,"Error",
             "Some of the Mandatory Fields left blank. Cannot Proceed further.");
             return;
-        }
+    }
 
-        if(QMessageBox::question(this,mwsdt->stroll,"Do you Want to Print Roll No. " + mwsdt->stroll + "'s Certificate ?", QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Ok) == QMessageBox::Ok)
-        {
+    if(QMessageBox::question(this,mwsdt->stroll,"Do you Want to Print Roll No. " + mwsdt->stroll + "'s Certificate ?", QMessageBox::Ok | QMessageBox::Cancel,QMessageBox::Ok) == QMessageBox::Ok)
+    {
+            // Print Details
             printf(mwsdt);
+
+            // Set Last Printed Roll
             ui.lstroll->setText(mwsdt->stroll);
+
             // Reset Interface & mwsdt after Printing in Single Print Mode.
             lstroll = "";
             reset();
             ui.leqroll->selectAll();
-        }
     }
-
 }
 
 void mainwindow::printf(sdetails *sdt)
@@ -731,6 +733,12 @@ void mainwindow::printf(sdetails *sdt)
 
             tsno = sno;
             ++sno;
+
+            // Reset Certificate ID to 0001 on reaching
+            // the Max value set by User
+            if(sno == ui.sbreset->value())
+                ui.sbcno->setValue(1);
+
             ui.sbcno->setValue(sno);
         }
 
@@ -881,13 +889,11 @@ void mainwindow::error(QString str)
 
 void mainwindow::closeEvent(QCloseEvent *e)
 {
-
         logmanager->write("\n****************************End of Session**************************\n");
         logmanager->setCount(clist.at(0),clist.at(1),0);
         logmanager->save();
         e->accept();
-
-}
+    }
 
 void mainwindow::keyPressEvent(QKeyEvent *e)
 {
